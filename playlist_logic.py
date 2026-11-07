@@ -114,15 +114,18 @@ def _song_key(song: Song) -> Tuple[str, str]:
     )
 
 
+def _collect_unique_songs(playlists: PlaylistMap) -> List[Song]:
+    """Flatten playlist entries while keeping one record per title and artist."""
+    unique_songs: Dict[Tuple[str, str], Song] = {}
+    for playlist_songs in playlists.values():
+        for song in playlist_songs:
+            unique_songs.setdefault(_song_key(song), song)
+    return list(unique_songs.values())
+
+
 def compute_playlist_stats(playlists: PlaylistMap) -> Dict[str, object]:
     """Compute statistics across unique songs in all playlists."""
-    # Count each title/artist pair once even if it appears in multiple playlists.
-    unique_songs: Dict[Tuple[str, str], Song] = {}
-    for songs in playlists.values():
-        for song in songs:
-            unique_songs.setdefault(_song_key(song), song)
-
-    all_songs = list(unique_songs.values())
+    all_songs = _collect_unique_songs(playlists)
     hype = { _song_key(song) for song in playlists.get("Hype", []) }
     chill = playlists.get("Chill", [])
     mixed = playlists.get("Mixed", [])

@@ -1,0 +1,7 @@
+# Playlist Chaos Reflection
+
+The most important skill I strengthened was debugging from a specific example instead of guessing at a fix. In the Playlist Chaos code, search compared the full artist name against the query in the wrong direction, so a short query such as “AC” could not find “AC/DC.” I changed the check so the trimmed, lowercased query is searched within the selected song field. I also corrected the playlist statistics to calculate average energy over all unique songs and the Hype ratio from Hype songs divided by the total.
+
+I fixed Lucky Pick so an empty playlist returns no result instead of raising an error, and “Any” can choose from Hype, Chill, or Mixed. I normalized the favorite genre comparison and made playlist merging avoid modifying the original lists. I added focused unit tests for these behaviors, including partial search, duplicate playlist entries, empty picks, and ensuring a merge leaves its inputs intact.
+
+The AI coding assistant is useful for explaining likely causes and suggesting code paths, but its suggestions still need to be checked against the intended behavior. For this exercise, the important habit was to state the expected result, inspect the relevant function, make a small change, and test that case. This approach matters because a change that seems plausible can still produce misleading statistics or fail on an empty playlist.
